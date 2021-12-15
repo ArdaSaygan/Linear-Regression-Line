@@ -1,0 +1,225 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+
+namespace Lineer_Regression_Graph
+{
+	
+	public partial class Linear_Regression : Form
+	{
+
+		List<Dot> ourDots = new List<Dot>();
+
+		public Linear_Regression()
+		{
+			InitializeComponent();
+
+	
+		}
+
+		private void Linear_Regression_Load(object sender, EventArgs e)
+		{
+
+		}
+
+		private void paint(object sender, PaintEventArgs e)
+		{
+			float h = Linear_Regression.ActiveForm.ClientSize.Height;
+			float w = Linear_Regression.ActiveForm.ClientSize.Width;
+			Pen pencil = new Pen(Color.DarkBlue, 10);
+			Pen regPen = new Pen(Color.Red, 5);
+			Pen dot = new Pen(Color.DarkGreen, 5);
+			e.Graphics.DrawLine(pencil, 1, 1, 590, 1);
+			e.Graphics.DrawLine(pencil, 1, 1, 1, 590);
+
+
+			Dot dot1 = new Dot(550, 140, e);
+			Dot dot2 = new Dot(300, 340, e);
+			Dot dot3 = new Dot(400, 340, e);
+			Dot dot4 = new Dot(520, 440, e);
+			Dot dot5 = new Dot(100, 340, e);
+			Dot dot6 = new Dot(450, 300, e);
+			Dot dot7 = new Dot(332, 500, e);
+			Dot dot8 = new Dot(504, 330, e);
+			Dot dot9 = new Dot(532, 340, e);
+			Dot dot0 = new Dot(495, 440, e);
+			Dot dot10 = new Dot(330, 340, e);
+			Dot dot11 = new Dot(300, 440, e);
+			Dot dot12 = new Dot(310, 340, e);
+			Dot dot13 = new Dot(500, 440, e);
+			ourDots.Add(dot1); ourDots.Add(dot5);
+			ourDots.Add(dot2); ourDots.Add(dot6);
+			ourDots.Add(dot3); ourDots.Add(dot7);
+			ourDots.Add(dot4); ourDots.Add(dot8);
+			ourDots.Add(dot9); ourDots.Add(dot13);
+			ourDots.Add(dot10); ourDots.Add(dot0);
+			ourDots.Add(dot11); 
+			ourDots.Add(dot12); 
+			/*
+						int K()
+						{
+							int sum = 0;
+							foreach (Dot nokta in ourDots)
+							{
+								sum += (nokta.x) * (nokta.x);
+							}
+							sum = sum * 2;
+							return sum;
+						}
+						int L()
+						{
+							int sum = 0;
+							foreach (Dot nokta in ourDots)
+							{
+								sum += (nokta.x);
+							}
+							sum = sum * 2;
+							return sum;
+						}
+						int M()
+						{
+							int sum = 0;
+							foreach (Dot nokta in ourDots)
+							{
+								sum += (nokta.x) * (nokta.y);
+							}
+							sum = sum * (-2);
+							return sum;
+						}
+						int A()
+						{
+							int sum = 0;
+							foreach (Dot nokta in ourDots)
+							{
+								sum += (nokta.x);
+							}
+							sum = sum * 2;
+							return sum;
+						}
+						int B()
+						{
+							return ourDots.Count() * 2;
+						}
+						int C()
+						{
+							int sum = 0;
+							foreach (Dot nokta in ourDots)
+							{
+								sum += (nokta.y);
+							}
+							sum = sum * (-2);
+							return sum;
+						}
+
+
+						float a = ((C() * L()) - (B() * M())) / ((B() * K()) - (A() * L()));
+						float b = ((C() * K()) - (A() * M())) / ((A() * L()) - (B() * K()));  */
+
+			//	double _a = Math.Round(Convert.ToDouble(a));
+			//	double _b = Math.Round(Convert.ToDouble(b));
+
+			//	Point firstDot = new Point(10, (int)((10 * _a) + _b));
+			//	Point secondDot = new Point(590, (int)((590 * _a) + _b));
+
+			int x()
+			{
+				int sum = 0;
+				foreach (Dot nokta in ourDots)
+				{
+					sum += (nokta.x);
+				}
+				return sum;
+			}
+
+			int y()
+			{
+				int sum = 0;
+				foreach (Dot nokta in ourDots)
+				{
+					sum += (nokta.y);
+				}
+				return sum;
+			}
+
+			int x2()
+			{
+				int sum = 0;
+				foreach (Dot nokta in ourDots)
+				{
+					sum += Convert.ToInt32(Math.Pow(Convert.ToDouble((nokta.x)), 2.0));
+				}
+				return sum;
+			}
+
+			int xy()
+			{
+				int sum = 0;
+				foreach (Dot nokta in ourDots)
+				{
+					sum += (nokta.x)*(nokta.y);
+				}
+				return sum;
+			}
+
+			int N = ourDots.Count();
+
+			double m = (N * xy() - x() * y()) / (N * x2() - Math.Pow(x(), 2));
+			double b = (y() - m * x()) / N;
+
+			float f(int para) 
+			{
+				return Convert.ToSingle(m * para + b);
+			}
+
+			e.Graphics.DrawLine(regPen, 0, f(0), 600, f(600));
+
+		}
+
+		public class Dot
+		{
+			public int x;
+			public int y;
+		
+			public Color colour = Color.DarkGreen;
+			public int thickness = 7;
+			
+			public Dot(int m, int n, PaintEventArgs e)
+			{
+				x = m;
+				y = n;
+				Point position = new Point(x, y);
+				Pen pencil = new Pen(colour, thickness);
+				Rectangle rect = new Rectangle(position, new Size(2, 2));
+				paintTheDot(e, pencil, rect);
+				
+			}
+					
+			public void paintTheDot(PaintEventArgs e, Pen pencil, Rectangle rect) 
+			{
+				e.Graphics.DrawRectangle(pencil, rect);
+			}
+
+		}
+
+		void random_data(int num, int slope, PaintEventArgs e)
+		{
+			Random rand = new Random();
+			int a = rand.Next(0, 300);
+			for (int i = 0; i < num; i++)
+			{
+				Dot nokta = new Dot(a, a * slope + rand.Next(0, 50), e);
+				ourDots.Add(nokta);
+			}
+		}
+
+
+
+	}
+}
