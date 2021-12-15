@@ -1,0 +1,2 @@
+# Linear-Regression-Line
+This programme is an attempt to draw the best fitting line for a given list of points. I first analyzed the problem mathematically and tried to come up with an algorythm that will minimize the vertical difference between points and regression line. There are two missing features in my programme. Firstly, inputs are given in the code and not taken from the user. Secondly, if some points deviate too much, regression line shifts completely.
